@@ -1,5 +1,6 @@
 package com.example.animationcodelab
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
@@ -78,7 +79,7 @@ fun Home() {
     suspend fun loadWeather() {
         if (!weatherLoading) {
             weatherLoading = true
-            delay(3000L)
+            delay(2000L)
             weatherLoading = false
         }
     }
@@ -99,7 +100,7 @@ fun Home() {
 
     val lazyListState = rememberLazyListState()
 
-    val backgroundColor by animateColorAsState(if (tabPage == TabPage.Home) Purple100 else Green300)
+    val backgroundColor by animateColorAsState(if (tabPage == TabPage.Home) Purple100 else Green100)
 
     // The coroutine scope for event handlers calling suspend functions.
     val coroutineScope = rememberCoroutineScope()
@@ -160,7 +161,7 @@ fun Home() {
                     }
                 )
             }
-            item { Spacer(modifier = Modifier.height(32.dp)) }
+            item { Spacer(modifier = Modifier.height(20.dp)) }
 
             // Tasks
             item { Header(title = stringResource(R.string.tasks)) }
@@ -202,7 +203,7 @@ private fun HomeFloatingActionButton(
 ) {
     // Use `FloatingActionButton` rather than `ExtendedFloatingActionButton` for full control on
     // how it should animate.
-    FloatingActionButton(onClick = onClick) {
+    FloatingActionButton(onClick = onClick, backgroundColor = SkyCyan) {
         Row(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
@@ -243,7 +244,7 @@ private fun EditMessage(shown: Boolean) {
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colors.secondary,
+            color = SkyCyan,
             elevation = 4.dp
         ) {
             Text(
@@ -418,7 +419,7 @@ private fun HomeTabIndicator(
         tabPositions[page.ordinal].right
     }
     val color by transition.animateColor(label = "Border color") { page ->
-        if (page == TabPage.Home) Purple700 else Green800
+        if (page == TabPage.Home) Purple700 else Green300
     }
     Box(
         Modifier
@@ -575,6 +576,7 @@ private fun TaskRow(task: String, onRemove: () -> Unit) {
  *
  * @param onDismissed Called when the element is swiped to the edge of the screen.
  */
+@SuppressLint("UnnecessaryComposedModifier")
 private fun Modifier.swipeToDismiss(
     onDismissed: () -> Unit
 ): Modifier = composed {
